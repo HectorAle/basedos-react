@@ -45,6 +45,33 @@ my-app
 ```
 cd my-app && yarn start
 ```
+# Script disponibles: 
+
+En el directorio del proyecto ejecutar por terminal los siguientes comandos:
+
+### `yarn start`
+
+Ejecuta la app en modo desarrollo.<br />
+Abrir [http://localhost:3000](http://localhost:3000) en el navegador.
+
+La página se volverá a cargar al realizar modificaciones.<br />
+Los errores de lint aparecerán en la consola.
+
+### `yarn test`
+
+Inicia el mode de test en modo interactivo.<br />
+<br />
+
+Para obtener más información visite  [running tests](https://facebook.github.io/create-react-app/docs/running-tests)
+
+### `yarn build`
+
+Permite crear la aplicación para producción quedando en la carpeta `build`. <br />
+Empaqueta y optimiza el código para obtener el mejor rendimiento.
+La compilación es minificada incluyendo hashes en los nombres de los archivos.
+<br />
+
+Para obtener más información visite  [deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
 
 # Documentación: 
