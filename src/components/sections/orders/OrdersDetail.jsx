@@ -1,8 +1,11 @@
 import React from 'react';
 
-function OrdersDetail() {
+function OrdersDetail(props) {
+  
+  const Id = props.match.params.number ? props.match.params.number : 0;
+
   return (
-   <h1>Detalle de Ordenes</h1>
+   <h1>Detalle de la orden: <span style={{color:'red'}}>{Id}</span></h1>
   );
 }
 

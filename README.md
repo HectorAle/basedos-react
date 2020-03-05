@@ -112,3 +112,7 @@ Crear archivo `db.json` con la siguiente estructura
 
 .- [json-server](https://github.com/typicode/json-server)
 
+.- [react-router](https://github.com/ReactTraining/react-router)
+
+.- [react-router Documentación](https://reacttraining.com/react-router/web/guides/quick-start)
+
