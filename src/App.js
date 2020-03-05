@@ -7,6 +7,10 @@ import InfoDashboard from './components/common/infoDashboard/infoDashboard';
 import Table from './components/common/table/table';
 import CardEvents from './components/common/cardEvents/CardEvents';
 
+const dataBreadcrumb = [
+  { 'name': 'Dashboard', 'url': '/', 'isSelected':false, },
+  { 'name': 'Ordenes', 'url': '/ordenes','isSelected':true },
+];
 
 function App() {
   return (
@@ -18,7 +22,7 @@ function App() {
         <div className="columns">
           <div className="column is-12">
             
-            <Breadcrumb/>
+            <Breadcrumb data={dataBreadcrumb} />
             
             <WelcomeBox
               title='Bienvenido Juanin Jan Jarri'
@@ -29,7 +33,7 @@ function App() {
               <div className="tile is-ancestor has-text-centered">
 
                 <InfoDashboard />
-
+                
               
               </div>
             </section>
