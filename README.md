@@ -74,10 +74,41 @@ La compilación es minificada incluyendo hashes en los nombres de los archivos.
 Para obtener más información visite  [deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
 
+# Instalar Json-Server
+(Api de desarrollo)
+
+## Instalación
+```npm install -g json-server```
+
+## Creación de archivo con datos
+
+Crear archivo `db.json` con la siguiente estructura
+```
+{
+  "posts": [
+    { "id": 1, "title": "json-server", "author": "typicode" }
+  ],
+  "comments": [
+    { "id": 1, "body": "some comment", "postId": 1 }
+  ],
+  "profile": { "name": "typicode" }
+}
+```
+
+## Iniciar Servidor
+```json-server --watch -p 4000 db.json```
+
+
+## Ingresar a [http://localhost:4000/posts/1](http://localhost:4000/posts/1)
+
+
+
 # Documentación: 
 .- [create-react-app](https://github.com/facebook/create-react-app)
 
 .- [Reactjs](https://es.reactjs.org/)
 
 .- [Redux](https://es.redux.js.org/)
+
+.- [json-server](https://github.com/typicode/json-server)
 

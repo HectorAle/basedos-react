@@ -14,7 +14,7 @@ const CardEvents= (props)=> {
             </div>
 
             <footer className="card-footer">
-                <a href="#" className="card-footer-item">Total de registros: 4</a>
+                <a href='!#' target="#" className="card-footer-item">Total de registros: 4</a>
             </footer>
 
       </div>

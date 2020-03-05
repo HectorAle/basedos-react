@@ -9,8 +9,8 @@ const Menu = (props) => {
   return (
       <nav className={`${style.navbarLine} navbar is-white` } role="navigation" aria-label="main navigation">
         <div className={`navbar-brand ${style.menu} `}>
-          <a className="navbar-item" href="#">
-            <img src={logo} width="112" height="28" />
+          <a className="navbar-item" href='!#' target="#" >
+            <img src={logo} alt='React js' width="112" height="28" />
           </a>
 
           <a href='!#' target="#" className='navbar-item is-active'><i className='ion ion-md-home'></i>Inicio</a>
