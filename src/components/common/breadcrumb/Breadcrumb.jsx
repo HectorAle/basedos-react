@@ -2,7 +2,6 @@ import React from 'react';
 
 
 const Breadcrumb = (props) => {
-  console.log('<<props>>', JSON.stringify(props))
   const {data} = props;
 
   return (
