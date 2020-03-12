@@ -1,11 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+// import _ from 'lodash';
 import { css } from '@emotion/core';
 import PacmanLoader from 'react-spinners/PacmanLoader';
 
-import { loadingStart, loadingFinished} from '../../../store/loading/actions';
-import { errorsAdd, errorsClear} from '../../../store/errors/actions';
+import { ordersGet } from '../../../store/orders/actions';
 
 
 import style from './Home.module.css';
@@ -38,134 +37,32 @@ const override = css`
 
 
 class Home extends Component {
-  state = {
-    dataRows: [],
-    dataColumns: [],
-    totalOrders: 0,
-    totalServices:0
+   state = {
+    dataColumns: ['Id', 'Nombre', 'Descripción', 'Servicio','Ingresado','button'],
   };
 
+
   componentDidMount() {
-    this.callApiServices();
-    this.callApi();
-
-    this.getLocalStorage();
-
+    const {ordersGet} = this.props;
+    ordersGet();
     
   }
 
-  getLocalStorage=()=>{
-    if (typeof(Storage) !== 'undefined') {
-     
-      const dataRows = localStorage.getItem('dataRows');
-      const dataColumns = localStorage.getItem('dataColumns');
-      const totalOrders= localStorage.getItem('totalOrders');
-      const totalServices = localStorage.getItem('totalServices');
-
-      this.setState({ 
-        dataRows: JSON.parse(dataRows), 
-        dataColumns: JSON.parse(dataColumns), 
-        totalOrders: JSON.parse(totalOrders),
-        totalServices: JSON.parse(totalServices)
-      });
-
-    }
-  };
-
-  setLocalStorage=(name, value)=>{
-    
-
-    if (typeof(Storage) !== 'undefined') {
-    
-      localStorage.setItem(name, value);
-      localStorage.Workshop = 'React-Chile';
-
-    }
+   getOrders= () => {
+    const { ordersGet } = this.props;
+    ordersGet();
   };
 
 
-  callApi = async () => {
-    const response = await fetch('/api/orders/');
-    const body = await response.json();
-
-    if (response.status !== 200) throw Error(body.message);
-    const count= _.countBy(body,{});
-
-    const rows= body.map((item)=>{
-      return { 
-        Id: item.clientId,
-        Nombre: item.clientName,
-        Descripción: item.descrip,
-        Servicio: item.servicesName,
-        Ingresado: item.usersName,
-        button: 'button'
-      }
-    });
-    const columns = ['Id', 'Nombre', 'Descripción', 'Servicio','Ingresado','button']
-
-    this.setState({ 
-      dataRows: rows, 
-      dataColumns: columns, 
-      totalOrders: count.true,
-    });
-    this.setLocalStorage('dataRows', JSON.stringify(rows));
-    this.setLocalStorage('dataColumns', JSON.stringify(columns));
-    this.setLocalStorage('totalOrders', count.true);
-  };
-
-  callApiServices = async() =>{
-    const response = await fetch('/api/services/');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    const count= _.countBy(body,{});
-    this.setState({ 
-      totalServices: count.true 
-    });
-    this.setLocalStorage('totalServices', count.true);
-    return body;
-  };
-
-
-  // Acciones Redux
-  actionInit= () => {
-    const { loadingStart } = this.props;
-    loadingStart({module:'HOME'});
-  };
-  actionFinish= () => {
-    const { loadingFinished } = this.props;
-    loadingFinished({module:'HOME'});
-  };
-
-  addError= () => {
-    const { errorsAdd } = this.props;
-    errorsAdd([ `Error_${ this.state.errorNumber }` ]);
-    
-    const newNumber = this.state.errorNumber + 1;
-    this.setState({errorNumber: newNumber});
-  };
-
-  clearError= () => {
-    const { errorsClear } = this.props;
-    errorsClear();
-  };
 
   render() {
-    const {dataColumns, dataRows, totalOrders, totalServices} = this.state;
-    const { loading, errors } = this.props;
+
+    const {dataColumns} = this.state;
+    const {orders: {list}, orders: {count}, loading} = this.props;
 
     return (
       <Fragment>
-        
-        <code style={{zIndex: '1000'}}>loading:{JSON.stringify(loading)}</code> <br />
-        <code style={{zIndex: '1000'}}>error: {JSON.stringify(errors)}</code> <br />
-
-        <a target="#"  href="#" style={{zIndex: '1000'}} className={`button is-link `} onClick={this.actionInit}>Loading-Iniciar</a> <span> </span>
-        <a target="#"  href="#" style={{zIndex: '1000'}} className={`button is-info `} onClick={this.actionFinish}>Loading-Finalizar</a>  <span> </span>
-
-        <a target="#"  href="#" style={{zIndex: '1000'}} className={`button is-danger `} onClick={this.addError}>Error</a>
-        <a target="#"  href="#" style={{zIndex: '1000'}} className={`button is-danger is-inverted `} onClick={this.clearError}>Clear Error</a>
-        
-
+      
        <PacmanLoader
           css={override}
           sizeUnit={"px"}
@@ -192,11 +89,11 @@ class Home extends Component {
                   <div className="tile is-ancestor has-text-centered">
 
                     <InfoDashboard 
-                      title={totalOrders}
+                      title={count}
                       subTitle="Ordenes abiertas"
                     />
                     <InfoDashboard 
-                      title={totalServices}
+                      title={0}
                       subTitle="Servicios"
                     />
                     
@@ -211,13 +108,13 @@ class Home extends Component {
               <div className="columns">
                 <div className="column is-12">
                 
-                  <CardEvents totalOrders={totalOrders}>
-                    <Table 
-                      dataColumns={dataColumns} 
-                      dataRows={dataRows}
-                      routeReturn={'/'}  
-                    />
-                  </CardEvents> 
+                 <CardEvents count={count}>
+                      <Table 
+                        dataColumns={dataColumns} 
+                        dataRows={list}
+                        routeReturn={'/orders'}  
+                      />
+                  </CardEvents>
                 
                 </div>
               </div>
@@ -231,24 +128,21 @@ class Home extends Component {
 }
 
 
-// export default Home;
-
-// export default Home;
+// export default Orders;
 const mapStateToProps = state => {
   return {
       loading: state.loading,
-      errors: state.errors
+      errors: state.errors,
+      orders: state.orders
   }
 };
 
 export const mapDispatchToProps = (dispatch) => ({
-  loadingStart: (payload) => dispatch(loadingStart( payload )),
-  loadingFinished: (payload) => dispatch(loadingFinished( payload )),
-  errorsAdd: (payload) => dispatch(errorsAdd( payload )),
-  errorsClear: (payload) => dispatch(errorsClear( payload )),
+  ordersGet: (payload) => dispatch(ordersGet( payload )),
   
   
 });
+
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
